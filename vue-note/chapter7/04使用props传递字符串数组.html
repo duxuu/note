@@ -1,0 +1,46 @@
+<!--
+父组件给子组件传值，是通过props实现的
+props的值可以是两种，一种是字符串数组，一种是对象，这个例子介绍了传递对象数据的用法
+
+props中声明的数据与组件data函数return的数据主要区别是，props的数来自父级。这两种数据都可以在模板template及计算属性computed和方法methods中使用
+
+由于HTML特性不区分大小写，当使用DOM模板时，驼峰命名的props名称，要转为短横分割命名
+
+通过props传递的数据是单向的，父组件改变时子组件会跟着变化，但是反过来不行
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue 示例</title>
+</head>
+
+<body>
+    <div id="app">
+        <my-component message="来自父组件的数据" :msg="message2" one-message="msg"></my-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+        Vue.component('my-component', {
+            props: ['message', 'msg', 'OneMessage'],
+            template: `
+            <div>我是子组件，{{message}}，{{msg}}
+                <div>第二个，{{msg}}</div>
+                <div>第三个div，说明一下驼峰命名，{{OneMessage}}</div>
+            </div>
+            
+            `
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message2: "父组件的msg2"
+            }
+        })
+    </script>
+</body>
+
+</html>
