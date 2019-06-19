@@ -1,0 +1,62 @@
+<!-- 
+Vue可以通过总线（Bus/总线/发布订阅模式/观察者模式）的机制，让非父子组件之间传值
+
+下面的例子，页面上有两个子组件，任意点击组件，另一个组件的内容会变成这个点击组件的内容。
+代码中的注释会详细说明如何实现
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>4-5-1非父子区间传值</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <c content="111"></c>
+        <c content="222"></c>
+    </div>
+    <script>
+        // 新建一个vue实例，放在bus变量中，所有的vue组件都可以访问bus中的变量
+        Vue.prototype.bus = new Vue()
+
+        var child = {
+            props: ['content'],
+            template: '<div @click="handleClick">{{cont}}</div>',
+            data: function () {
+                return {
+                    cont: this.content
+                }
+            },
+            // 点击的时候，使用让bus触发一个change事件
+            methods: {
+                handleClick: function () {
+                    this.bus.$emit('change', this.cont);
+                }
+            },
+            // 利用mounted生命钩子函数，让组件监听bus的change事件
+            // 需要注意的是this的变化
+            mounted: function () {
+                var this_ = this;
+                this.bus.$on('change', function (msg) {
+                    this_.cont = msg
+                })
+            },
+
+        }
+
+        var app = new Vue({
+            el: "#app",
+            components: {
+                c: child
+            }
+        })
+    </script>
+</body>
+
+</html>

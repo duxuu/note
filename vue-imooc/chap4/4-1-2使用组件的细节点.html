@@ -1,0 +1,43 @@
+<!-- 
+在子组件template中，可能要调用组件data中的数据
+子组件的data，需要写成function，然后function会return所有数据内容，例如下面例子
+
+这是因为组件可能会被调用很多次，这样会避免多个子组件相互形象
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>使用组件的细节</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+        </table>
+    </div>
+    <script>
+        Vue.component('row', {
+            template: '<tr><td>{{info}}</td></tr>',
+            // data: {
+            //     info: function() { return 'this is a row'}
+            // }
+
+            data: function(){
+                return {
+                    info: 'this is a row'
+                }
+            }
+        })
+
+        var app = new Vue({
+            el: "#app"
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!-- 
+当父组件需要传递给子组件很多DOM的时候，虽然可以使用props传递，不过这样子代码会比较复杂
+slot可以更方便的传递dom元素
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>插槽</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <child>
+            <!-- 下面的模板中，还定义了插槽的默认内容，如果这里没有header的内容，header会显示‘header的默认内容’ -->
+            <div slot="header">header content</div>
+            <div slot="footer">footer content</div>
+        </child>
+    </div>
+    <script>
+
+        var child = {
+            template: 
+                `<div>
+                    <slot name="header">header的默认内容</slot>
+                    <div>正文内容</div>
+                    <slot name="footer"></slot>
+                </div>`,
+
+        }
+
+        var app = new Vue({
+            el: "#app",
+            components: {
+                child: child
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!-- 
+父组件可以通过props向子组件传值
+
+但是如果直接在子组件中改变props传递的值，vue会警告，
+因此建议在data中新建一个变量，作为这个props的副本使用
+
+下面是一个例子
+ -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>使用组件的细节</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <counter :num="num"></counter>
+    </div>
+    <script>
+        var counter = {
+            props: ['num'],
+            template: '<div @click="handleClick">{{my_num}}</div>',
+            data: function() {
+                return {
+                    my_num: this.num
+                }
+            },
+            methods: {
+                handleClick: function () {
+                    this.my_num++;
+                }
+            },
+        }
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                num: 1,
+            },
+            components: {
+                counter: counter
+            }
+        })
+    </script>
+</body>
+
+</html>

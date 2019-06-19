@@ -1,0 +1,47 @@
+<!-- 
+如果要绑定原生事件，只需要给事件加一个‘.native’即可
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>4-4-1给组件绑定原生事件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <c @click.native="handleClick"></c>
+    </div>
+    <script>
+        var child = {
+            template: '<div @click="handleClick">child</div>',
+            methods: {
+                handleClick: function () {
+                    console.log('child');
+                }
+            },
+        }
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                num: 1,
+            },
+            methods: {
+                handleClick: function() {
+                    console.log('c')
+                }
+            },
+            components: {
+                c: child
+            }
+        })
+    </script>
+</body>
+
+</html>

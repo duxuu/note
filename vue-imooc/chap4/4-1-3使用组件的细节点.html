@@ -1,0 +1,54 @@
+<!-- 
+ref的使用
+
+虽然vue不推荐直接操作dom元素，但是在有些复杂的场景下，直接操作dom可能会比较方便
+通过ref，可以获得dom元素
+同时，父组件也可以通过ref，获得子组件的值
+
+下面是一个计数器的例子，页面上有两个计数器，点击会让自己加一，同时父组件会显示两个计数器的和
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>使用组件的细节</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <counter @change='handleChange' ref='counter1'></counter>
+        <counter @change='handleChange' ref='counter2'></counter>
+        <div>{{sum}}</div>
+    </div>
+    <script>
+        Vue.component('counter', {
+            template: '<div @click="handleClick">{{number}}</div>',
+            methods: {
+                handleClick : function() {
+                    this.number ++;
+                    this.$emit('change');
+                },
+            },
+            data: function(){
+                return {
+                    number: 0
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                sum: 0
+            },
+            methods: {
+                handleChange : function() {
+                    this.sum = this.$refs.counter1.number + this.$refs.counter2.number;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
